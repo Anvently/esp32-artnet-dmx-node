@@ -8,7 +8,6 @@
 #include "string.h"
 
 #define TX_PIN 2
-#define USED_UART 2
 #define FRQ_DFT 1000000
 
 
@@ -18,6 +17,8 @@ class Dmx
 	private:
 
 		Dmx(void);
+
+		static const uart_port_t	USED_UART = (uart_port_t) 2;
 
 		static uint8_t				_channels[512];
 		static SemaphoreHandle_t	_dataLock;
