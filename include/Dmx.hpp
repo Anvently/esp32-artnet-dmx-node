@@ -5,9 +5,10 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
+#include "freertos/semphr.h"
 #include "string.h"
 
-#define TX_PIN 2
+#define TX_PIN 4
 #define FRQ_DFT 1000000
 
 
