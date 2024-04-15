@@ -4,16 +4,31 @@
 static const char* TAG = "UDPSocket";
 
 uint32_t			UDPSocket::hostIP = 0;
+unsigned char		UDPSocket::rx_buffer[SOCKET_BUFFER_SIZE] = {0};
 
+void	UDPSocket::printBuffer(uint32_t len)
+{
+	printf("Header: %s \n", rx_buffer);
+	printf("opcode: %hu \n", (uint16_t)*(rx_buffer + 8));
+	printf("version: %hu \n", (uint16_t)*(rx_buffer + 10));
+	printf("sequence: %hhu \n", (uint8_t)*(rx_buffer + 12));
+	printf("physical port: %hhu \n", (uint8_t)*(rx_buffer + 13));
+	printf("universe: %hu \n", (uint16_t)*(rx_buffer + 14));
+	printf("length in bytes: %hu \n", (uint16_t)*(rx_buffer + 16));
+
+	for (uint32_t i = 18; i < len; i++)
+	{
+		printf("%hhu ", rx_buffer[i]);
+	}
+	printf("\n");
+}
 
 void	UDPSocket::socketTask(void *)
 {
-	char	rx_buffer[512];
 	// char	host_ip[] = "192.168.0.19";
 	int		addr_family = AF_INET;
 	int		ip_protocol = IPPROTO_IP;
-	
-	
+
 	while (1)
 	{
 		ESP_LOGI(TAG, "Waiting for IP attribution from Wifi");
@@ -62,6 +77,7 @@ void	UDPSocket::socketTask(void *)
 				//check if artnet packet
 				//...
 				ESP_LOGI(TAG, "received %d bytes", bytesReceived);
+				// printBuffer((uint32_t) bytesReceived);
 			}
 			vTaskDelay(pdMS_TO_TICKS(1)); //May not be usefull
 		}
