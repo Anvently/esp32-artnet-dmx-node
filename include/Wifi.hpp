@@ -4,6 +4,7 @@
 #include "freertos/FreeRTOS.h"
 #include "esp_wifi.h"
 #include "freertos/task.h"
+#include "freertos/event_groups.h"
 #include "esp_check.h"
 #include "nvs_flash.h"
 #include "lwip/err.h"
@@ -12,7 +13,7 @@
 
 
 #define WIFI_MAX_RECONNECT 3
-#define WIFI_SSID "Grand-caribou"
+#define WIFI_SSID "petit caribou"
 #define WIFI_PASSWORD "bonjour3000"
 
 #define ARTNET_PORT 12345
@@ -68,7 +69,7 @@ class Wifi
 	public:
 
 		static void			start(void);
-		static void			checkConnexion(void);
+		static void			waitConnexion(void);
 		static uint32_t		getHostIP(void);
 		
 };

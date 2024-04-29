@@ -83,19 +83,8 @@ esp_err_t	Wifi::init(void)
 
 /// @brief Block task until a wifi connexion is established
 /// @param  
-void	Wifi::checkConnexion(void)
+void	Wifi::waitConnexion(void)
 {
-	// while (1)
-	// {
-	// 	xSemaphoreTake(Wifi::connectionLock, portMAX_DELAY);
-	// 	if (Wifi::isConnected == true)
-	// 	{
-	// 		xSemaphoreGive(Wifi::connectionLock);
-	// 		break;
-	// 	}
-	// 	xSemaphoreGive(Wifi::connectionLock);
-	// 	vTaskDelay(pdMS_TO_TICKS(5));
-	// }
 	xEventGroupWaitBits(Wifi::wifiEvents, WIFI_CONNECTED_BIT, pdFALSE, pdFALSE, portMAX_DELAY);
 }
 

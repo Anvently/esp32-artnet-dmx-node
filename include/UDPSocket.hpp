@@ -25,11 +25,14 @@ class UDPSocket
 
 		static unsigned char		rx_buffer[SOCKET_BUFFER_SIZE];
 		static uint32_t				hostIP; //A mutex could be needed for this variable in case of disconnect/reconnect
+		static uint8_t				(*handler)(const char*, uint16_t);
+
 
 	public:
 
 		static void			start(void);
 		static void			socketTask(void *arg);
+		static void			setHandler(uint8_t (*handler)(const char*, uint16_t));
 		
 };
 

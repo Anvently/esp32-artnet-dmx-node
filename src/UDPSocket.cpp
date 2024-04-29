@@ -5,6 +5,7 @@ static const char* TAG = "UDPSocket";
 
 uint32_t			UDPSocket::hostIP = 0;
 unsigned char		UDPSocket::rx_buffer[SOCKET_BUFFER_SIZE] = {0};
+uint8_t				(*UDPSocket::handler)(const char*, uint16_t) = NULL;
 
 void	UDPSocket::printBuffer(uint32_t len)
 {
@@ -32,8 +33,8 @@ void	UDPSocket::socketTask(void *)
 	while (1)
 	{
 		ESP_LOGI(TAG, "Waiting for IP attribution from Wifi");
-		Wifi::checkConnexion();
-		ESP_LOGI(TAG, "IP found, starting socket, with timeout set as %d", BLOCK_TIMEOUT_SEC);
+		Wifi::waitConnexion();
+		ESP_LOGI(TAG, "IP set, starting socket, with timeout set as %d", BLOCK_TIMEOUT_SEC);
 
 		struct sockaddr_in client_addr;
 		client_addr.sin_addr.s_addr = Wifi::getHostIP();
@@ -74,19 +75,30 @@ void	UDPSocket::socketTask(void *)
 			}
 			else
 			{
-				//check if artnet packet
-				//...
-				ESP_LOGI(TAG, "received %d bytes", bytesReceived);
-				// printBuffer((uint32_t) bytesReceived);
+				ESP_LOGD(TAG, "received %d bytes", bytesReceived);
+				if (handler && handler((const char*)rx_buffer, bytesReceived))
+					ESP_LOGD(TAG, "Invalid packet was received");
+					
 			}
 			vTaskDelay(pdMS_TO_TICKS(1)); //May not be usefull
 		}
 	}
 }
 
+/// @brief Set the handler function that will be call each time the
+/// socket receives a packet. 
+/// @param uint16_t 
+void	UDPSocket::setHandler(uint8_t (*handler)(const char*, uint16_t))
+{
+	UDPSocket::handler = handler;
+}
+
 void	UDPSocket::start(void)
 {
 	ESP_LOGI(TAG, "initializing udp socket task");
+
+	UDPSocket::handler = handler;
+
 	xTaskCreatePinnedToCore(&UDPSocket::socketTask,
 						"SocketTask",
 						configMINIMAL_STACK_SIZE + 4096,
