@@ -1,9 +1,18 @@
 #include "Artnet.hpp"
 
+#if DMX_OUTPUT_NBR == 1
+
 //Set the active universe for each DMX output. Artnet packet intended to one of the universe
 //configured in universeMap will be forwarded to the correct output
-uint16_t	Artnet::universeMap[DMX_OUTPUT_NBR] = {0};
+uint16_t	Artnet::universeMap[DMX_OUTPUT_NBR] = {DMX_OUTPUT1_DFT_UNIVERSE};
 
+#elif DMX_OUTPUT_NBR == 2
+
+//Set the active universe for each DMX output. Artnet packet intended to one of the universe
+//configured in universeMap will be forwarded to the correct output
+uint16_t	Artnet::universeMap[DMX_OUTPUT_NBR] = {DMX_OUTPUT1_DFT_UNIVERSE, DMX_OUTPUT2_DFT_UNIVERSE};
+
+#endif
 static const char*	TAG = "Artnet";
 /*
 

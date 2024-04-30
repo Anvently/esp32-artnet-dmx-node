@@ -9,9 +9,14 @@
 #include "freertos/event_groups.h"
 #include "string.h"
 
-#define DMX_OUTPUT_NBR 2
-#define DMX_TX_PIN_UNIVERSE_1 2
-#define DMX_TX_PIN_UNIVERSE_2 4
+
+//Feel free to change this value
+#define DMX_OUTPUT_NBR 2 //Currently supported maximum number of output is 2
+#define DMX_TX_PIN_OUTPUT1 2
+#define DMX_TX_PIN_OUTPUT2 4
+#define DMX_OUTPUT1_DFT_UNIVERSE 0 //this setting can also be changed at runtime
+#define DMX_OUTPUT2_DFT_UNIVERSE 1 //this setting can also be changed at runtime
+
 #define DMX_UART_UNIVERSE_1 UART_NUM_1
 #define DMX_UART_UNIVERSE_2 UART_NUM_2
 #define FRQ_DFT 1000000

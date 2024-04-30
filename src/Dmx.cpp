@@ -27,11 +27,11 @@ void	Dmx::initialize(void)
 	};
 
 	Dmx::universes[0]._uart_num = (uart_port_t) DMX_UART_UNIVERSE_1;
-	Dmx::universes[0]._tx_pin = DMX_TX_PIN_UNIVERSE_1;
+	Dmx::universes[0]._tx_pin = DMX_TX_PIN_OUTPUT1;
 
 #if (DMX_OUTPUT_NBR == 2)
 	Dmx::universes[1]._uart_num = (uart_port_t) DMX_UART_UNIVERSE_2;
-	Dmx::universes[1]._tx_pin = DMX_TX_PIN_UNIVERSE_2;
+	Dmx::universes[1]._tx_pin = DMX_TX_PIN_OUTPUT2;
 #endif
 
 	for (uint8_t i = 0; i < DMX_OUTPUT_NBR; i++)

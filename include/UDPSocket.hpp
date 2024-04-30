@@ -10,7 +10,7 @@
 #include "lwip/sockets.h"
 #include "lwip/sys.h"
 
-#define UDP_PORT 6454
+#define UDP_PORT 6454 //Artnet UDP port
 #define BLOCK_TIMEOUT_SEC 1000
 #define SOCKET_BUFFER_SIZE 1024
 

@@ -12,8 +12,6 @@
 # include "Dmx.hpp"
 
 # define ARTNET_ERROR_INVALID_PACKET 1
-# define ARTNET_
-
 
 class Artnet
 {

@@ -13,10 +13,8 @@
 
 
 #define WIFI_MAX_RECONNECT 3
-#define WIFI_SSID "petit caribou"
-#define WIFI_PASSWORD "bonjour3000"
-
-#define ARTNET_PORT 12345
+#define WIFI_SSID "default_ssid"
+#define WIFI_PASSWORD "default_password"
 
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT BIT1

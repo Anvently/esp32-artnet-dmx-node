@@ -10,60 +10,6 @@
 #include "utils.hpp"
 
 static const char*	TAG = "main.c";
-static uint16_t		frq = 500;
-
-void	routine(void *arg)
-{
-	uint8_t		level = 0;
-	uint16_t*	frq = (uint16_t *) arg;
-	while (1)
-	{
-		level %= 2;
-		vTaskDelay(*frq / portTICK_PERIOD_MS);
-		gpio_set_level(GPIO_NUM_2, level++);
-	}
-}
-
-void	readButton(void *arg)
-{
-	bool	isPressed = false;
-	uint16_t	*frq = (uint16_t *) arg;
-	// TickType_t	prevTick = xTaskGetTickCount();
-	while (1)
-	{
-		vTaskDelay(50 / portTICK_PERIOD_MS);
-		// xTaskDelayUntil(&prevTick, 50 / portTICK_PERIOD_MS);
-		if (gpio_get_level(GPIO_NUM_0) == 0 && isPressed == false)
-		{
-			*frq -= 50;
-			isPressed = true;
-		}
-		else if (gpio_get_level(GPIO_NUM_0) == 0)
-			continue;
-		else
-			isPressed = false;
-	}
-}
-
-void	setup(void)
-{
-	gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
-	gpio_set_direction(GPIO_NUM_0, GPIO_MODE_INPUT);
-}
-
-// void	readLine(void *param)
-// {
-// 	// uart_intr_config_t	config = {.intr_enable_mask = }
-// 	// uart_intr_config(UART_NUM_0, );
-// 	char	line[128] = {0};
-// 	char	c = 0;
-
- 
-// 	while (uart_read_bytes(UART_NUM_0, &c, 1, portMAX_DELAY))
-// 	{
-// 		uart_write_bytes(UART_NUM_0, &c, 1);
-// 	}
-// }
 
 static void	universe_command(char* line)
 {
@@ -200,10 +146,6 @@ static void console_task(void *arg)
     while (1) {
 		get_next_line(line, 128, "cmd:");
 		parse_line(line);
-        // // Read data from the UART
-        // int len = uart_read_bytes(UART_NUM_0, line, 1, 20 / portTICK_PERIOD_MS);
-        // Write data back to the UART
-        // uart_write_bytes(UART_NUM_0, (const char *) line, len);
     }
 }
 
@@ -211,39 +153,12 @@ extern "C" void app_main() {
 	(void) TAG;
 	
 	Wifi::start();
-
-	setup();
-
-	xTaskCreatePinnedToCore(readButton,
-						"ReadingButton",
-						configMINIMAL_STACK_SIZE + 2048,
-						&frq,
-						2,
-						NULL,
-						1);
-
-	xTaskCreatePinnedToCore(routine,
-						"BlinkingLed2",
-						configMINIMAL_STACK_SIZE + 10,
-						&frq,
-						1,
-						NULL,
-						1);
-
 	UDPSocket::start();
 
 	Dmx::initialize();
 	Artnet::universeMap[0] = 0;
 	UDPSocket::setHandler(Artnet::artnetToDmx); ///Handler should be set after universeMap has been configured
 	
-	 xTaskCreate(console_task, "uart_echo_task", configMINIMAL_STACK_SIZE + 10 + 1048, NULL, 10, NULL);
-
-	// xTaskCreatePinnedToCore(readLine,
-	// 					"Readline",
-	// 					configMINIMAL_STACK_SIZE + 10 + 128,
-	// 					NULL,
-	// 					1,
-	// 					NULL,
-	// 					3);
+	 xTaskCreate(console_task, "consoleTask", configMINIMAL_STACK_SIZE + 10 + 1048, NULL, 10, NULL);
 }
 
