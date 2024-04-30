@@ -71,7 +71,7 @@ void	Dmx::sendTrame(void *param)
 		uart_write_bytes(dmx->_uart_num, (const char *)&start_code, 1);
 		// DMX protocol allows to wait for undefined time between each frame 
 		xSemaphoreTake(dmx->_dataLock, portMAX_DELAY);
-		ESP_LOGD(TAG, "wrote %d bytes", uart_write_bytes(dmx->_uart_num, dmx->_channels, 512));
+		ESP_LOGD(TAG, "wrote %d bytes to UART %d", uart_write_bytes(dmx->_uart_num, dmx->_channels, 512), dmx->_uart_num);
 		xSemaphoreGive(dmx->_dataLock);
 	}
 }

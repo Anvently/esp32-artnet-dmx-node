@@ -4,7 +4,7 @@
 //configured in universeMap will be forwarded to the correct output
 uint16_t	Artnet::universeMap[DMX_OUTPUT_NBR] = {0};
 
-
+static const char*	TAG = "Artnet";
 /*
 
 +----------------+--------------------------------------+--------------------------------------+-------------------------+--------------------------+--+--+--+--+--+
@@ -49,7 +49,10 @@ uint8_t	Artnet::artnetToDmx(const char* buffer, uint16_t size)
 	for (uint8_t i = 0; i < DMX_OUTPUT_NBR; i++)
 	{
 		if (universe == Artnet::universeMap[i])
+		{
+			ESP_LOGD(TAG, "Packet of %hu channels intended to output %hhu", length, i);
 			Dmx::universes[i].setBuffer((uint8_t*)buffer + 18, length);
+		}
 	}
 	return (0);
 }

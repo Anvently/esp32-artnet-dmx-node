@@ -62,15 +62,20 @@ class Wifi
 
 		static uint8_t				reconnectTries;
 		static EventGroupHandle_t	wifiEvents;
-		static uint32_t				hostIP; //A mutex could be needed for this variable in case of disconnect/reconnect
+		static esp_ip4_addr_t		hostIP; //A mutex could be needed for this variable in case of disconnect/reconnect
 		static SemaphoreHandle_t	connectionLock;
 		static bool					isConnected;
+		static TaskHandle_t			taskHandle;
+		static wifi_config_t		wifiConfig;
 
 	public:
 
 		static void			start(void);
 		static void			waitConnexion(void);
 		static uint32_t		getHostIP(void);
+		static void			printHostIP(void);
+		static void			stop(void);
+		static void			setNetwork(uint8_t ssid[32], uint8_t password[64]);
 		
 };
 

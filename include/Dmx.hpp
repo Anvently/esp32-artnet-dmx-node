@@ -9,7 +9,7 @@
 #include "freertos/event_groups.h"
 #include "string.h"
 
-#define DMX_OUTPUT_NBR 1
+#define DMX_OUTPUT_NBR 2
 #define DMX_TX_PIN_UNIVERSE_1 2
 #define DMX_TX_PIN_UNIVERSE_2 4
 #define DMX_UART_UNIVERSE_1 UART_NUM_1
