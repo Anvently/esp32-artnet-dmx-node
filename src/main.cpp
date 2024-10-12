@@ -102,7 +102,7 @@ static void	get_next_line(char *buffer, uint16_t size, const char* prompt)
 			if (log == true)
 			{
 				ESP_LOGE(TAG, "LOG ENABLED");
-				esp_log_level_set("*", ESP_LOG_INFO);
+				esp_log_level_set("*", ESP_LOG_DEBUG);
 			}
 			else
 			{
@@ -152,13 +152,15 @@ static void console_task(void *arg)
 extern "C" void app_main() {
 	(void) TAG;
 	
+
 	Wifi::start();
 	UDPSocket::start();
 
 	Dmx::initialize();
 	Artnet::universeMap[0] = 0;
 	UDPSocket::setHandler(Artnet::artnetToDmx); ///Handler should be set after universeMap has been configured
-	
-	 xTaskCreate(console_task, "consoleTask", configMINIMAL_STACK_SIZE + 10 + 1048, NULL, 10, NULL);
+	// uint8_t	buffer[9] = {255};
+	// Dmx::universes[0].setBuffer(buffer, 9);
+	xTaskCreate(console_task, "consoleTask", configMINIMAL_STACK_SIZE + 10 + 1048, NULL, 10, NULL);
 }
 

@@ -65,7 +65,6 @@ void	UDPSocket::socketTask(void *)
 			struct sockaddr_storage	src_addr;
 			socklen_t				socklen = sizeof(src_addr);
 			int bytesReceived = recvfrom(sock, rx_buffer, sizeof(rx_buffer) - 1, 0, (sockaddr *)&src_addr, &socklen);
-			
 			if (bytesReceived < 0)
 			{
 				ESP_LOGE(TAG, "the socket failed to receive, restarting socket: errno = %d", errno);
@@ -76,6 +75,7 @@ void	UDPSocket::socketTask(void *)
 			else
 			{
 				ESP_LOGD(TAG, "received %d bytes", bytesReceived);
+				// printBuffer(bytesReceived);
 				if (handler && handler((const char*)rx_buffer, bytesReceived))
 					ESP_LOGD(TAG, "Invalid packet was received");
 					

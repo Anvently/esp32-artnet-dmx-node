@@ -11,7 +11,7 @@
 
 
 //Feel free to change this value
-#define DMX_OUTPUT_NBR 2 //Currently supported maximum number of output is 2
+#define DMX_OUTPUT_NBR 1 //Currently supported maximum number of output is 2
 #define DMX_TX_PIN_OUTPUT1 2
 #define DMX_TX_PIN_OUTPUT2 4
 #define DMX_OUTPUT1_DFT_UNIVERSE 0 //this setting can also be changed at runtime

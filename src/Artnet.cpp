@@ -53,7 +53,9 @@ uint8_t	Artnet::artnetToDmx(const char* buffer, uint16_t size)
 	//Ignore protocol version/sequence/physical
 	uint16_t	universe = ((uint16_t)buffer[14] << 8) | buffer[15];
 	uint16_t	length = ((uint16_t)buffer[16] << 8) | buffer[17];
-	if (length % 2 || length > 512 || (length + 18) != size)
+	if (length == 0)
+		length = size - 18;
+	if (length > 512 || (length + 18) != size)
 		return (ARTNET_ERROR_INVALID_PACKET);
 	for (uint8_t i = 0; i < DMX_OUTPUT_NBR; i++)
 	{
